@@ -1,6 +1,7 @@
 
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime;
+using System.Text;
 using Microsoft.VisualBasic;
 using SQLitePCL;
 
@@ -48,7 +49,7 @@ public class StaffService {
         {
             return ProductCrud.Get(id);
         }
-        public string ChangePrice(int id, int amount)
+        public string ChangePrice(int id, decimal amount)
         {
             var product = ProductCrud.Get(id);
             if (product == null) {return "Товара не существует";}
@@ -86,7 +87,11 @@ public class StaffService {
         {
             return saleCrud.GetAll().OrderByDescending(a => a.Amount).FirstOrDefault();
         }
-    }
+        public decimal Revenue()
+        {
+            return saleCrud.GetAll().Sum(s => s.Amount);
+        }
+    }    
     public class WarehouseService
     {
         private DefaultCrud<Warehouse> WHCrud = new DefaultCrud<Warehouse>();
@@ -118,4 +123,75 @@ public class StaffService {
             else if (method == "decrease") {wh.Stock -= amount; return "Кол-во успешно уменьшено";}
             else {return "Недопустимый метод";}
         }
-}
+    }   
+    
+
+
+
+public class MainService
+{
+    public SalesService salesService = new SalesService();
+    public StaffService staffService = new StaffService();
+    public ProductService productService = new ProductService();
+    public WarehouseService warehouseService = new WarehouseService();
+    public string Report()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("Отчет");
+        sb.AppendLine($"Дата: {DateTime.Now:dd.MM.yyyy}\n");
+        sb.AppendLine("Краткая статистика:");
+
+        sb.AppendLine($"Общая выручка: {salesService.Revenue()} рублей");
+
+        var bestWorker = staffService.GetBestWorker();
+        sb.AppendLine(bestWorker != null ? $"Лучший работник: {bestWorker.FullName} ({bestWorker.Sales.Count} продаж)" : "Лучший работник: нет данных");
+        
+        var mostExpensiveSale = salesService.GetMostCostSale();
+        sb.AppendLine(mostExpensiveSale != null ? $"Самая дорогая продажа: {mostExpensiveSale.Amount} рублей": "Самая дорогая продажа: нет данных");
+        
+        var mostSaledProduct = productService.GetMostSaledProduct();
+        sb.AppendLine(mostSaledProduct != null ? $"Самый популярный товар: {mostSaledProduct.Name}" : "Самый популярный товар: нет данных");
+        
+        var mostInStock = warehouseService.GetMostInStock();
+        sb.AppendLine(mostInStock?.Product != null ? $"Больше всего на складе: {mostInStock.Product.Name}" : "Склад: нет данных");
+
+
+        sb.AppendLine("\nПодробная информация:");
+        sb.AppendLine("Персонал:\n");
+        foreach (var s in staffService.ShowAllStaff() ?? new List<Staff>())
+            sb.AppendLine($"ФИО: {s.FullName} | ЗП: {s.Salary} | Возраст: {s.Age} | Продаж: {s.Sales.Count}");
+
+        sb.AppendLine("\nТовары:\n");
+        foreach (var p in productService.ShowAllProducts() ?? new List<Product>())
+            sb.AppendLine($"Название: {p.Name} | Цена: {p.Price} рублей | Категория: {p.Category} | НДС: {p.VAT}%");
+
+        sb.AppendLine("\nПродажи:\n");
+        foreach (var sale in salesService.GetAllSales() ?? new List<Sale>())
+            sb.AppendLine($"ID: {sale.Id} | Сумма: {sale.Amount} | Кол-во: {sale.Quantity} | Дата: {sale.CreatedAt}");
+
+        sb.AppendLine("\nСклад:\n");
+        foreach (var w in warehouseService.GetAllWHItems() ?? new List<Warehouse>())
+            sb.AppendLine($"ID: {w.Id} | Товар ID: {w.ProductId} | Остаток: {w.Stock} | Статус: {w.Status}");
+
+        return sb.ToString();  
+    }
+    public string DailyReport(DateTime date)
+    {
+        var todaySales = salesService.GetAllSales()
+            ?.Where(s => s.CreatedAt.Date == date.Date)
+            ?.Sum(s => s.Amount) ?? 0;
+        return $"Выручка за {date:dd.MM.yyyy}: {todaySales} рублей";
+    }
+    public string LowStockAlert()
+    {
+        var lowStock = warehouseService.GetAllWHItems()
+            ?.Where(w => w.Stock < 10)
+            ?.Select(w => w.Product.Name)
+            ?.ToList() ?? new();
+        return lowStock.Any() 
+            ? $"Нехватка: {string.Join(", ", lowStock)}"
+            : "Склад в норме";
+    }
+
+} 
+

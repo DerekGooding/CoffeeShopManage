@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoffeShopManage")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7f1d34506578fc575eb81e691ed3177200110e4a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e83d020502e439b33bdbd4c87ca4e6c0bec1c3e1")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoffeShopManage")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoffeShopManage")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
