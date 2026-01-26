@@ -23,7 +23,7 @@ class Program
                 case "5": ReportMenu(); break;
                 case "0": return;
             }
-            Console.WriteLine("\nНажмите ентер...");
+            Console.WriteLine("\nНажмите Enter...");
             Console.ReadLine();
 
         }
@@ -92,7 +92,7 @@ class Program
         }
 
         foreach (var p in products)
-            Console.WriteLine($"Название: {p.Name} | Цена: {p.Price} рублей | Категория: {p.Category} | НДС: {p.VAT}%");
+            Console.WriteLine($"Название: {p.Name} | Цена: {p.Price} рублей | Категория: {p.Category} | НДС: {p.VAT}% | ID: {p.Id}");
 
     }
 
@@ -185,7 +185,7 @@ class Program
         }
 
         foreach (var s in staff)
-            Console.WriteLine($"ФИО: {s.FullName} | ЗП: {s.Salary} | Возраст: {s.Age} | Продаж: {s.Sales.Count}");
+            Console.WriteLine($"ФИО: {s.FullName} | ЗП: {s.Salary} | Возраст: {s.Age} | Продаж: {s.Sales.Count} | ID: {s.Id}");
 
     }
     static void AddStaff()
@@ -284,11 +284,11 @@ class Program
         int staffId = int.Parse(Console.ReadLine() ?? "1");
 
         var sale = mainService.salesService.AddNewSale(amount, productId, staffId, qty);
-        Console.WriteLine($"\nПродажа '{sale}' добавлена. ID: {sale.Id}");
+        Console.WriteLine($"\nПродажа '{sale.Id}' добавлена. ID: {sale.Id}");
     }
     static void ShowRevenue()
     {
-        Console.WriteLine($"Общая выручка: {mainService.salesService.Revenue()}");
+        Console.WriteLine($"Общая выручка: {mainService.salesService.Revenue()} рублей");
 
     }
     static void WarehouseMenu()
@@ -362,7 +362,7 @@ class Program
     }
     static void ChangeStock()
     {
-        Console.Write("ID товара: ");
+        Console.Write("ID позиции: ");
         if (int.TryParse(Console.ReadLine(), out int id) && id > 0)
         {
             Console.Write("Метод (1 - прибавить; 2 - убавить): ");
@@ -387,7 +387,7 @@ class Program
         while (true)
         {
             Console.Clear();
-            Console.WriteLine("=== СКЛАД ===");
+            Console.WriteLine("=== ОТЧЕТ ===");
             Console.WriteLine("1. Получить отчет");
             Console.WriteLine("2. Скачать отчет");
             Console.WriteLine("0. Назад");
@@ -424,7 +424,7 @@ class Program
     static void DownloadReport()
     {   
         var report = mainService.Report();
-        var path = $"report_{DateTime.Now}.txt";
+        var path = $"report_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
         File.WriteAllText(path, report);
         Console.WriteLine($"Отчет скачан в {path}");
     }

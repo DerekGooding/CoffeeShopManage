@@ -26,6 +26,7 @@ public class DefaultCrud<T> where T: class
         var obj = context.Set<T>().Find(id);
         if (obj == null) {return false;}
         context.Set<T>().Remove(obj);
+        context.SaveChanges();
         return true;
     }
     public T? Update(int id, T entity)

@@ -42,9 +42,7 @@ public class StaffService {
         }
         public Product AddNewProduct(string name, decimal price, string category, int vat, bool isActive) 
         {   
-            Console.WriteLine($"Название до создания товара: {name}");
             var product = new Product(name, price, category, vat, isActive);
-            Console.WriteLine($"Название после создания товара: {product.Name}");
             return ProductCrud.Create(product);
         }
         public Product? GetProduct(int id)
@@ -57,7 +55,7 @@ public class StaffService {
             if (product == null) {return "Товара не существует";}
             product.Price = amount;
             ProductCrud.Update(id, product);
-            return $"Цена товара {id} измнена на {product.Price} рублей";
+            return $"Цена товара '{product.Name}' изменена на {product.Price} рублей";
         }
         public Product? GetMostSaledProduct()
         {
@@ -121,8 +119,8 @@ public class StaffService {
         {
             var wh = WHCrud.Get(id);
             if (wh==null) {return "На складе нет такого предмета";}
-            if (method == "increase") {wh.Stock += amount; return "Кол-во успешно увеличено";}
-            else if (method == "decrease") {wh.Stock -= amount; return "Кол-во успешно уменьшено";}
+            if (method == "increase") {wh.Stock += amount; WHCrud.Update(id, wh); return "Кол-во успешно увеличено";}
+            else if (method == "decrease") {wh.Stock -= amount; WHCrud.Update(id, wh); return "Кол-во успешно уменьшено";}
             else {return "Недопустимый метод";}
         }
     }   
