@@ -2949,19 +2949,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Alex\\.nuget\\packages\\": {}
+    "C:\\Users\\Cheburek\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Alex\\VSProjects\\CoffeShopService\\CoffeShopManage\\CoffeShopManage.csproj",
+      "projectUniqueName": "C:\\Users\\Cheburek\\VSProjects\\CoffeShopManage\\CoffeShopManage.csproj",
       "projectName": "CoffeShopManage",
-      "projectPath": "C:\\Users\\Alex\\VSProjects\\CoffeShopService\\CoffeShopManage\\CoffeShopManage.csproj",
-      "packagesPath": "C:\\Users\\Alex\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Alex\\VSProjects\\CoffeShopService\\CoffeShopManage\\obj\\",
+      "projectPath": "C:\\Users\\Cheburek\\VSProjects\\CoffeShopManage\\CoffeShopManage.csproj",
+      "packagesPath": "C:\\Users\\Cheburek\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Cheburek\\VSProjects\\CoffeShopManage\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Alex\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Cheburek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

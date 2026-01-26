@@ -41,8 +41,10 @@ public class StaffService {
             return ProductCrud.GetAll();
         }
         public Product AddNewProduct(string name, decimal price, string category, int vat, bool isActive) 
-        {
+        {   
+            Console.WriteLine($"Название до создания товара: {name}");
             var product = new Product(name, price, category, vat, isActive);
+            Console.WriteLine($"Название после создания товара: {product.Name}");
             return ProductCrud.Create(product);
         }
         public Product? GetProduct(int id)
@@ -69,7 +71,7 @@ public class StaffService {
         {
             return saleCrud.GetAll();
         }
-        public Sale AddNewSale(decimal amount, DateTime createdAt, int productId, int staffId, int Quantity)
+        public Sale AddNewSale(decimal amount, int productId, int staffId, int Quantity)
         {
             var sale = new Sale
             {
