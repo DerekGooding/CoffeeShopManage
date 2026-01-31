@@ -137,7 +137,7 @@ public class MainService
     public string Report()
     {
         var sb = new StringBuilder();
-        sb.AppendLine("Отчет");
+        sb.AppendLine("========== ОТЧЕТ ==========");
         sb.AppendLine($"Дата: {DateTime.Now:dd.MM.yyyy}\n");
         sb.AppendLine("Краткая статистика:");
 
@@ -159,7 +159,7 @@ public class MainService
         sb.AppendLine("\nПодробная информация:");
         sb.AppendLine("Персонал:\n");
         foreach (var s in staffService.ShowAllStaff() ?? new List<Staff>())
-            sb.AppendLine($"ФИО: {s.FullName} | ЗП: {s.Salary} | Возраст: {s.Age} | Продаж: {s.Sales.Count}");
+            sb.AppendLine($"ФИО: {s.FullName} | ЗП: {s.Salary}| Должность: {s.Position} | Возраст: {s.Age} | Продаж: {s.Sales.Count}");
 
         sb.AppendLine("\nТовары:\n");
         foreach (var p in productService.ShowAllProducts() ?? new List<Product>())

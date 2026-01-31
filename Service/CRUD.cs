@@ -39,28 +39,3 @@ public class DefaultCrud<T> where T: class
         return obj;
     }
 }   
-
-// class ProductCrud
-// {
-    
-// }
-
-// class StaffCrud
-// {
-    
-// }
-
-// class WarehouseCrud
-// {
-    
-// }
-
-// class SalesCrud
-// {
-    
-// }
-
-// class AnalyticsCrud
-// {
-    
-// }
