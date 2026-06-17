@@ -22,10 +22,7 @@ public partial class InitialCreate : Migration
                 VAT = table.Column<int>(type: "INTEGER", nullable: false),
                 IsActive = table.Column<bool>(type: "INTEGER", nullable: false)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Products", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Products", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "Staff",
@@ -38,10 +35,7 @@ public partial class InitialCreate : Migration
                 Age = table.Column<int>(type: "INTEGER", nullable: false),
                 Position = table.Column<string>(type: "TEXT", nullable: false)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Staff", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Staff", x => x.Id));
 
         migrationBuilder.CreateTable(
             name: "WarehouseItems",

@@ -1,4 +1,4 @@
-namespace CoffeShopManage.Service;
+namespace CoffeShopManage;
 
 public class DefaultCrud<T> where T : class
 {
@@ -11,7 +11,7 @@ public class DefaultCrud<T> where T : class
     public List<T> GetAll()
     {
         using var context = new AppDbContext();
-        return context.Set<T>().ToList();
+        return [.. context.Set<T>()];
     }
 
     public T Create(T entity)

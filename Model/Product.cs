@@ -9,7 +9,7 @@ public class Product
     public int VAT { set; get; }
     public bool IsActive { set; get; }
 
-    public List<Sale> Sales { set; get; } = new();
+    public List<Sale> Sales { set; get; } = [];
 
     public Product()
     { }

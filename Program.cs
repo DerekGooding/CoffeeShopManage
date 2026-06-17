@@ -2,9 +2,9 @@
 
 namespace CoffeShopManage;
 
-internal class Program
+internal static class Program
 {
-    private static MainService mainService = new MainService();
+    private static readonly MainService _mainService = new();
 
     private static void Main()
     {
@@ -85,8 +85,8 @@ internal class Program
     {
         Console.WriteLine("\nСПИСОК ТОВАРОВ:");
 
-        var products = mainService.productService.ShowAllProducts() ?? new();
-        if (!products.Any())
+        var products = _mainService.productService.ShowAllProducts() ?? [];
+        if (products.Count == 0)
         {
             Console.WriteLine("Пусто");
             return;
@@ -99,38 +99,44 @@ internal class Program
     private static void AddProduct()
     {
         Console.Write("Название: ");
-        string name = Console.ReadLine() ?? "Без имени";
+        var name = Console.ReadLine() ?? "Без имени";
 
         Console.Write("Цена: ");
-        decimal price = decimal.Parse(Console.ReadLine() ?? "0");
+        var price = decimal.Parse(Console.ReadLine() ?? "0");
 
         Console.Write("Категория: ");
-        string category = Console.ReadLine() ?? "Общее";
+        var category = Console.ReadLine() ?? "Общее";
 
         Console.Write("НДС (%): ");
-        int vat = int.Parse(Console.ReadLine() ?? "20");
+        var vat = int.Parse(Console.ReadLine() ?? "20");
 
         Console.Write("Активен? (y/n): ");
-        bool isActive = Console.ReadLine()?.ToLower() == "y";
+        var isActive = Console.ReadLine()?.ToLower() == "y";
 
-        var product = mainService.productService.AddNewProduct(name, price, category, vat, isActive);
+        var product = _mainService.productService.AddNewProduct(name, price, category, vat, isActive);
         Console.WriteLine($"\nТовар '{product.Name}' добавлен. ID: {product.Id}");
     }
 
     private static void ChangeProductPrice()
     {
         Console.Write("ID товара: ");
-        if (int.TryParse(Console.ReadLine(), out int id) && id > 0)
+        if (int.TryParse(Console.ReadLine(), out var id) && id > 0)
         {
             Console.Write("Новая цена: ");
-            if (decimal.TryParse(Console.ReadLine(), out decimal newPrice))
+            if (decimal.TryParse(Console.ReadLine(), out var newPrice))
             {
-                string result = mainService.productService.ChangePrice(id, newPrice);
+                var result = _mainService.productService.ChangePrice(id, newPrice);
                 Console.WriteLine($"\n{result}");
             }
-            else Console.WriteLine("Неверная цена");
+            else
+            {
+                Console.WriteLine("Неверная цена");
+            }
         }
-        else Console.WriteLine("Неверный ID");
+        else
+        {
+            Console.WriteLine("Неверный ID");
+        }
     }
 
     private static void StaffMenu()
@@ -178,8 +184,8 @@ internal class Program
     {
         Console.WriteLine("\nСПИСОК РАБОТНИКОВ:");
 
-        var staff = mainService.staffService.ShowAllStaff() ?? new();
-        if (!staff.Any())
+        var staff = _mainService.staffService.ShowAllStaff() ?? [];
+        if (staff.Count == 0)
         {
             Console.WriteLine("Пусто");
             return;
@@ -192,29 +198,32 @@ internal class Program
     private static void AddStaff()
     {
         Console.Write("ФИО: ");
-        string name = Console.ReadLine() ?? "Без имени";
+        var name = Console.ReadLine() ?? "Без имени";
 
         Console.Write("Зарплата: ");
-        decimal salary = decimal.Parse(Console.ReadLine() ?? "0");
+        var salary = decimal.Parse(Console.ReadLine() ?? "0");
 
         Console.Write("Возраст: ");
-        int age = int.Parse(Console.ReadLine() ?? "18");
+        var age = int.Parse(Console.ReadLine() ?? "18");
 
         Console.Write("Должность: ");
-        string position = Console.ReadLine() ?? "Бариста";
+        var position = Console.ReadLine() ?? "Бариста";
 
-        var staff = mainService.staffService.AddNewStaff(name, salary, age, position);
+        var staff = _mainService.staffService.AddNewStaff(name, salary, age, position);
         Console.WriteLine($"\nРаботник '{staff.FullName}' добавлен. ID: {staff.Id}");
     }
 
     private static void FireStaff()
     {
         Console.WriteLine("ID работника: ");
-        if (int.TryParse(Console.ReadLine(), out int id) && id > 0)
+        if (int.TryParse(Console.ReadLine(), out var id) && id > 0)
         {
-            Console.WriteLine(mainService.staffService.FireStaff(id));
+            Console.WriteLine(_mainService.staffService.FireStaff(id));
         }
-        else Console.WriteLine("Неверный ID");
+        else
+        {
+            Console.WriteLine("Неверный ID");
+        }
     }
 
     private static void SalesMenu()
@@ -262,8 +271,8 @@ internal class Program
     {
         Console.WriteLine("\nСПИСОК ПРОДАЖ:");
 
-        var sales = mainService.salesService.GetAllSales() ?? new();
-        if (!sales.Any())
+        var sales = _mainService.salesService.GetAllSales() ?? [];
+        if (sales.Count == 0)
         {
             Console.WriteLine("Пусто");
             return;
@@ -276,25 +285,22 @@ internal class Program
     private static void AddSale()
     {
         Console.Write("Кол-во товара: ");
-        int qty = int.Parse(Console.ReadLine() ?? "1");
+        var qty = int.Parse(Console.ReadLine() ?? "1");
 
         Console.Write("Сумма: ");
-        decimal amount = decimal.Parse(Console.ReadLine() ?? "1");
+        var amount = decimal.Parse(Console.ReadLine() ?? "1");
 
         Console.Write("ID товара: ");
-        int productId = int.Parse(Console.ReadLine() ?? "1");
+        var productId = int.Parse(Console.ReadLine() ?? "1");
 
         Console.Write("ID работника: ");
-        int staffId = int.Parse(Console.ReadLine() ?? "1");
+        var staffId = int.Parse(Console.ReadLine() ?? "1");
 
-        var sale = mainService.salesService.AddNewSale(amount, productId, staffId, qty);
+        var sale = _mainService.salesService.AddNewSale(amount, productId, staffId, qty);
         Console.WriteLine($"\nПродажа '{sale.Id}' добавлена. ID: {sale.Id}");
     }
 
-    private static void ShowRevenue()
-    {
-        Console.WriteLine($"Общая выручка: {mainService.salesService.Revenue()} рублей");
-    }
+    private static void ShowRevenue() => Console.WriteLine($"Общая выручка: {_mainService.salesService.Revenue()} рублей");
 
     private static void WarehouseMenu()
     {
@@ -341,8 +347,8 @@ internal class Program
     {
         Console.WriteLine("\nСПИСОК ПОЗИЦИЙ СКЛАДА:");
 
-        var whItems = mainService.warehouseService.GetAllWHItems() ?? new();
-        if (!whItems.Any())
+        var whItems = _mainService.warehouseService.GetAllWHItems() ?? [];
+        if (whItems.Count == 0)
         {
             Console.WriteLine("Пусто");
             return;
@@ -355,39 +361,47 @@ internal class Program
     private static void AddWHItem()
     {
         Console.Write("Кол-во товара: ");
-        int qty = int.Parse(Console.ReadLine() ?? "1");
+        var qty = int.Parse(Console.ReadLine() ?? "1");
 
         Console.Write("ID товара: ");
-        int productId = int.Parse(Console.ReadLine() ?? "1");
+        var productId = int.Parse(Console.ReadLine() ?? "1");
 
         Console.Write("Статус: ");
-        string status = Console.ReadLine() ?? "не указан";
+        var status = Console.ReadLine() ?? "не указан";
 
-        var wh = mainService.warehouseService.AddNewWHItem(productId, qty, status);
+        var wh = _mainService.warehouseService.AddNewWHItem(productId, qty, status);
         Console.WriteLine($"\nПозиция склада '{wh}' добавлена. ID: {wh.Id}");
     }
 
     private static void ChangeStock()
     {
         Console.Write("ID позиции: ");
-        if (int.TryParse(Console.ReadLine(), out int id) && id > 0)
+        if (int.TryParse(Console.ReadLine(), out var id) && id > 0)
         {
             Console.Write("Метод (1 - прибавить; 2 - убавить): ");
-            if (int.TryParse(Console.ReadLine(), out int intMethod))
+            if (int.TryParse(Console.ReadLine(), out var intMethod))
             {
-                var method = "increase";
-                if (intMethod == 1) { method = "increase"; } else { method = "decrease"; }
+                var method = intMethod == 1 ? "increase" : "decrease";
                 Console.Write("Введите кол-во: ");
-                if (int.TryParse(Console.ReadLine(), out int amount))
+                if (int.TryParse(Console.ReadLine(), out var amount))
                 {
-                    string result = mainService.warehouseService.ChangeStock(id, amount, method);
+                    var result = _mainService.warehouseService.ChangeStock(id, amount, method);
                     Console.WriteLine($"\n{result}");
                 }
-                else Console.WriteLine("Неверное кол-во");
+                else
+                {
+                    Console.WriteLine("Неверное кол-во");
+                }
             }
-            else Console.WriteLine("Неверный метод");
+            else
+            {
+                Console.WriteLine("Неверный метод");
+            }
         }
-        else Console.WriteLine("Неверный ID");
+        else
+        {
+            Console.WriteLine("Неверный ID");
+        }
     }
 
     private static void ReportMenu()
@@ -426,14 +440,11 @@ internal class Program
         }
     }
 
-    private static void ShowReport()
-    {
-        Console.WriteLine(mainService.Report());
-    }
+    private static void ShowReport() => Console.WriteLine(_mainService.Report());
 
     private static void DownloadReport()
     {
-        var report = mainService.Report();
+        var report = _mainService.Report();
         var path = $"report_{DateTime.Now:yyyyMMdd_HHmmss}.txt";
         File.WriteAllText(path, report);
         Console.WriteLine($"Отчет скачан в {path}");

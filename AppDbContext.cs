@@ -1,7 +1,7 @@
 using CoffeShopManage.Model;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoffeShopManage.Service;
+namespace CoffeShopManage;
 
 public class AppDbContext : DbContext
 {

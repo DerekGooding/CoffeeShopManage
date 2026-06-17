@@ -8,7 +8,7 @@ public class Staff
     public int Age { set; get; }
     public string Position { set; get; } = null!;
 
-    public List<Sale> Sales { set; get; } = new();
+    public List<Sale> Sales { set; get; } = [];
 
     public Staff()
     { }
