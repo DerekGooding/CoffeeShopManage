@@ -1,4 +1,7 @@
+using CoffeShopManage.Model;
 using System.Text;
+
+namespace CoffeShopManage.Service;
 
 public class StaffService
 {

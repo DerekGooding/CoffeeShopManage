@@ -1,4 +1,8 @@
-﻿internal class Program
+﻿using CoffeShopManage.Service;
+
+namespace CoffeShopManage;
+
+internal class Program
 {
     private static MainService mainService = new MainService();
 

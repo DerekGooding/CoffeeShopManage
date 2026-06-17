@@ -1,3 +1,5 @@
+namespace CoffeShopManage.Service;
+
 public class DefaultCrud<T> where T : class
 {
     public T? Get(int id)
